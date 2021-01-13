@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -24,6 +25,14 @@ public:
 	Vector get_normalized(){
 		double n = sqrt(sqrNorm());
 		return Vector(coords[0]/n, coords[1]/n, coords[2]/n);
+	}
+	Vector gamma_correct(){
+		double gamma = 2.2;
+		return Vector(
+			std::pow(coords[0]/255, 1./gamma)*255, 
+			std::pow(coords[1]/255, 1./gamma)*255, 
+			std::pow(coords[2]/255, 1./gamma)*255
+		);
 	}
 private:
 	double coords[3];
@@ -155,6 +164,7 @@ int main() {
 	Vector L(-10,20,40);
 	
 	std::vector<unsigned char> image(W*H*3, 0);
+
 	for (int i = 0; i < H; i++) {
 		for (int j = 0; j < W; j++) {
 			Vector u(j - W/2, i - H/2, -W/(2.*tan(fov/2)));
@@ -168,6 +178,7 @@ int main() {
 				double d = sqrt(PL.sqrNorm());
 				// color = Vector(255, 255, 255);
 				color = I/(4*M_PI*d*d) * (albedo/M_PI) * std::max(0., dot(N, PL/d));
+				color.gamma_correct();
 			}
 
 			image[((H - i - 1)*W + j)*3 + 0] = color[0];
