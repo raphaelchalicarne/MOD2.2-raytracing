@@ -9,7 +9,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#define M_PI 3.141592653589793238462
+//#define M_PI 3.141592653589793238462;
 
 #include <iostream>
 #include <random>
@@ -141,20 +141,6 @@ public:
 	};
 };
 
-void integrateCos() {
-	int N = 10000;
-	double sigma = 0.25;
-	double s = 0;
-	for (int i=0; i < N; i++){
-		double u1 = uniform(engine);
-		double u2 = uniform(engine);
-		double xi = sigma*cos(2*M_PI*u1)*sqrt(-2*log(u2));
-		double p = 1/(sigma*sqrt(2*M_PI)) * exp(-xi*xi / (2*sigma*sigma));// Loi de probabilité gaussienne
-		s += pow(cos(xi), 10)/p/N;	// x_i
-	}
-	std::cout << s << std::endl;
-}
-
 int main() {
 	int W = 512;
 	int H = 512;
@@ -208,8 +194,6 @@ int main() {
 		}
 	}
 	stbi_write_png("image.png", W, H, 3, &image[0], 0);
-
-	integrateCos();
 
 	return 0;
 }
