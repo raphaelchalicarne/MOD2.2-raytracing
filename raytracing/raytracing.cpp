@@ -9,7 +9,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-//#define M_PI 3.141592653589793238462;
+#define M_PI 3.14159265358979323846
 
 #include <iostream>
 #include <random>
