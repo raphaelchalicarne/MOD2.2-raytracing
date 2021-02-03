@@ -152,18 +152,17 @@ int main() {
 	
 	Sphere S1(Vector(-10, 0, 0), 10, Vector(1., 0., 0.));
     Sphere S2(Vector(10, 0, 0), 10, Vector(0., 0., 1.));
-    Sphere Ssol(Vector(0, -1000, 0), 990, Vector(1., 1., 1.));
-    Sphere Smur1(Vector(-1000, 0, 0), 960, Vector(1., 0., 0.));
-    Sphere Smur2(Vector(1000, 0, 0), 960, Vector(1., 0., 0.));
-    Sphere Smur3(Vector(0, 0, -1000), 960, Vector(1., 0., 0.));
-    Sphere Smur4(Vector(0, 0, -1000), 960, Vector(1., 0., 0.));
+    Sphere Ssol(Vector(0, -1000, 0), 990, Vector(0., 1., 1.));
+	Sphere SmurBehind(Vector(0, 0, 1000), 940, Vector(1., 0., 1.));
+	Sphere SmurFront(Vector(0, 0, -1000), 940, Vector(0., 1., 0.));
+	Sphere Splafond(Vector(0, 1000, 0), 940, Vector(1., 0., 0.));
+
     scene.objects.push_back(S1);
     scene.objects.push_back(S2);
     scene.objects.push_back(Ssol);
-    scene.objects.push_back(Smur1);
-    scene.objects.push_back(Smur2);
-    scene.objects.push_back(Smur3);
-    scene.objects.push_back(Smur4);
+    scene.objects.push_back(SmurBehind);
+    scene.objects.push_back(SmurFront);
+    scene.objects.push_back(Splafond);
 
 	double fov = 60* M_PI / 180;
 	double I = 1E7;
