@@ -78,7 +78,7 @@ public:
 
 class Sphere{
 public:
-	Sphere(const Vector &O, double R, const Vector &albedo): O(O), R(R), albedo(albedo) {
+	Sphere(const Vector &O, double R, const Vector &sphere_color): O(O), R(R), sphere_color(sphere_color) {
 	}
 	bool intersect(const Ray &r, Vector &P, Vector &N, double &t) {
 		// solves a*t^2 + b*t + c = 0
@@ -116,14 +116,14 @@ public:
 	}
 	Vector O;
 	double R;
-	Vector albedo;
+	Vector sphere_color;
 };
 
 class Scene{
 public:
 	Scene(){};
 	std::vector<Sphere>objects;
-	bool intersect(const Ray &r, Vector &P, Vector &N, Vector &albedo){
+	bool intersect(const Ray &r, Vector &P, Vector &N, Vector &sphere_color){
 		double t = 1E10;
 		bool has_inter = false;
 		for (int i = 0; i < objects.size(); i++){
@@ -132,7 +132,7 @@ public:
 			if (objects[i].intersect(r, localP, localN, localt) && localt < t){
 				t = localt;
 				has_inter = true;
-				albedo = objects[i].albedo;
+				sphere_color = objects[i].sphere_color;
 				P = localP;
 				N = localN;
 			}
@@ -176,14 +176,14 @@ int main() {
 			Vector u(j - W/2, i - H/2, -W/(2.*tan(fov/2)));
 			u = u.get_normalized();
 			Ray r(u, C);
-			Vector P, N, albedo;
-			bool inter = scene.intersect(r, P, N, albedo);
+			Vector P, N, sphere_color;
+			bool inter = scene.intersect(r, P, N, sphere_color);
 			Vector color(0, 0, 0);
 			if (inter) {
 				Vector PL = L - P;
 				double d = sqrt(PL.sqrNorm());
 				// color = Vector(255, 255, 255);
-				color = I/(4*M_PI*d*d) * (albedo/M_PI) * std::max(0., dot(N, PL/d));
+				color = I/(4*M_PI*d*d) * (sphere_color/M_PI) * std::max(0., dot(N, PL/d));
 				color.gamma_correct();
 			}
 
