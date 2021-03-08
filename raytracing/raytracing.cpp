@@ -167,7 +167,7 @@ int main() {
 	double fov = 60* M_PI / 180;
 	double I = 1E7;
 	//Vector rho(1,0,0);
-	Vector L(-10,20,40);
+	Vector Light(-10,20,40);
 	
 	std::vector<unsigned char> image(W*H*3, 0);
 
@@ -180,10 +180,10 @@ int main() {
 			bool inter = scene.intersect(r, P, N, sphere_color);
 			Vector color(0, 0, 0);
 			if (inter) {
-				Vector PL = L - P;
-				double d = sqrt(PL.sqrNorm());
+				Vector PLight = Light - P;
+				double d = sqrt(PLight.sqrNorm());
 				// color = Vector(255, 255, 255);
-				color = I/(4*M_PI*d*d) * (sphere_color/M_PI) * std::max(0., dot(N, PL/d));
+				color = I/(4*M_PI*d*d) * (sphere_color/M_PI) * std::max(0., dot(N, PLight/d));
 				color.gamma_correct();
 			}
 
